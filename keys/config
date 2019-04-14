@@ -1,0 +1,4 @@
+Host atta
+    HostName 192.168.50.10
+Host flik
+    HostName 192.168.50.11
