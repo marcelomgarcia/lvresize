@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "centos/7"
   config.ssh.insert_key = false
-  config.ssh.private_key_path = 
+  config.ssh.private_key_path = ["keys/id_rsa",".vagrant/machines/default/virtualbox/private_key"]
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory and num. of CPUs on the VM:
     vb.memory = "2048"
