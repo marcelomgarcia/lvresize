@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "atta", primary: true do |machine|
     machine.vm.hostname = "atta"
     machine.vm.network "private_network", ip: "192.168.50.10"
-    config.vm.provision "ansible" do |ansible|
+    config.vm.provision :ansible_local do |ansible|
       ansible.verbose = "v"
       ansible.playbook = "lvresize.yaml"
     end
