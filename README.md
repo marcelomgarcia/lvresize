@@ -18,3 +18,15 @@ Putting all together, the _ssh_ configuration on the Vagrant file look like this
     config.vm.provision "shell", inline: "chmod 600 /home/vagrant/.ssh/config"
 
 The Vagrant keys are copied to the machines, and permissions are set.
+
+## Ansible
+
+Configuring _atta_ to be the Ansible controller to configure _flik_. The Ansible configuration is inside the block where _atta_ is defined, and since Ansible is being installed in one of the guest machines, it's necessary to use the option _ansible_local_:
+
+    config.vm.define "atta", primary: true do |machine|
+    (...)
+      config.vm.provision :ansible_local do |ansible|
+        ansible.verbose = "v"
+        ansible.playbook = "lvresize.yaml"
+      end
+    end
