@@ -1,0 +1,9 @@
+---
+- hosts: flik
+  become: yes
+  become_method: sudo
+
+  tasks:
+  - name: disable SElinux
+    selinux:
+      state: disabled
