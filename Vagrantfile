@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
 
   config.ssh.insert_key = false
-  config.ssh.private_key_path = ["keys/vagrant",".vagrant/machines/default/virtualbox/private_key"]
+  # config.ssh.private_key_path = ["keys/vagrant",".vagrant/machines/default/virtualbox/private_key"]
   config.vm.provision "file", source: "keys/config",  destination: "~/.ssh/config"
   config.vm.provision "file", source: "keys/vagrant", destination: "~/.ssh/id_rsa"
   config.vm.provision "file", source: "keys/vagrant.pub", destination: "~/.ssh/id_rsa.pub"
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     machine.vm.network "private_network", ip: "192.168.50.10"
     config.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
-    ansible.playbook = "lvresize.yaml"
+      ansible.playbook = "lvresize.yaml"
     end
   end
 
