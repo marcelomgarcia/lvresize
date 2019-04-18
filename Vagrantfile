@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Define the first server. This will be the master of pcs cluster.
-  config.vm.define "atta" do |machine|
+  config.vm.define "atta", primary: true do |machine|
     machine.vm.hostname = "atta"
     machine.vm.network "private_network", ip: "192.168.50.10"
   end
