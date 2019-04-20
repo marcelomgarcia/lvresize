@@ -7,7 +7,6 @@ Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
 
   config.ssh.insert_key = false
-  # config.ssh.private_key_path = ["keys/vagrant",".vagrant/machines/default/virtualbox/private_key"]
   config.vm.provision "file", source: "keys/config",  destination: "~/.ssh/config"
   config.vm.provision "file", source: "keys/vagrant", destination: "~/.ssh/id_rsa"
   config.vm.provision "file", source: "keys/vagrant.pub", destination: "~/.ssh/id_rsa.pub"
