@@ -30,3 +30,7 @@ Configuring _atta_ to be the Ansible controller to configure _flik_. The Ansible
         ansible.playbook = "lvresize.yaml"
       end
     end
+
+## NTP
+
+Next we [configure NTP](https://www.tecmint.com/install-ntp-server-in-centos/) so the machines have the correct clock. Atta will be the server, and flik the client.
