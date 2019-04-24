@@ -1,4 +1,11 @@
 ---
+- hosts: all
+  tasks:
+  - name : Install the 'ntp package.
+    yum:
+      name: ntp
+      state: present
+
 - hosts: flik
   become: yes
   become_method: sudo
@@ -7,7 +14,3 @@
   - name: disable SElinux
     selinux:
       state: disabled
-  - name : Install the 'ntp package.
-    yum:
-      name: ntp
-      state: present
