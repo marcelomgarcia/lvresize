@@ -19,6 +19,35 @@ Putting all together, the _ssh_ configuration on the Vagrant file look like this
 
 The Vagrant keys are copied to the machines, and permissions are set.
 
+It can be useful to have the plugin _vagrant-scp_ installed
+
+    PS C:\Users\mgarcia\Documents\Work\lvresize> vagrant plugin install vagrant-scp
+    Installing the 'vagrant-scp' plugin. This can take a few minutes...
+    Fetching: vagrant-scp-0.5.7.gem (100%)
+    Installed the plugin 'vagrant-scp (0.5.7)'!
+    PS C:\Users\mgarcia\Documents\Work\lvresize>
+    PS C:\Users\mgarcia\Documents\Work\lvresize>
+    PS C:\Users\mgarcia\Documents\Work\lvresize> vagrant plugin list
+    vagrant-scp (0.5.7, global)
+    PS C:\Users\mgarcia\Documents\Work\lvresize>
+
+So we can copy files between the host and guests, and vice-versa
+
+    PS C:\Users\mgarcia\Documents\Work\lvresize\templates> vagrant scp atta:/etc/ntp.conf .
+    ntp.conf       100% 2000   539.2KB/s   00:00
+    PS C:\Users\mgarcia\Documents\Work\lvresize\templates> ls
+
+
+        Directory: C:\Users\mgarcia\Documents\Work\lvresize\templates
+
+
+    Mode                LastWriteTime         Length Name
+    ----                -------------         ------ ----
+    -a----       24.04.2019     21:50           2000 ntp.conf
+
+
+    PS C:\Users\mgarcia\Documents\Work\lvresize\templates>
+
 ## Ansible
 
 Configuring _atta_ to be the Ansible controller to configure _flik_. The Ansible configuration is inside the block where _atta_ is defined, and since Ansible is being installed in one of the guest machines, it's necessary to use the option _ansible_local_:
