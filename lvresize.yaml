@@ -21,4 +21,9 @@
     template:
       src: templates/ntp.conf.j2
       dest: /etc/ntp.conf
+  - service:
+      name: ntpd
+      enabled: yes
+      state: started
+
     
