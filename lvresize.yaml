@@ -6,7 +6,7 @@
   - name: disable SElinux
     selinux:
       state: disabled
-  - name : Install the 'ntp package.
+  - name : Install the ntp package
     yum:
       name: ntp
       state: present
