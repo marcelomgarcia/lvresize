@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  vars: 
+    ntp_servers: ['0.de.pool.ntp.org', '1.de.pool.ntp.org', '2.de.pool.ntp.org']
   become: yes
   become_method: sudo
   tasks:
@@ -10,13 +12,6 @@
     yum:
       name: ntp
       state: present
-
-- hosts: atta
-  vars: 
-    ntp_servers: ['0.de.pool.ntp.org', '1.de.pool.ntp.org', '2.de.pool.ntp.org']
-  become: yes
-  become_method: sudo
-  tasks:
   - name: Set up NTP server config file
     template:
       src: templates/ntp.conf.j2
