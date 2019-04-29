@@ -20,3 +20,11 @@
       name: ntpd
       enabled: yes
       state: started
+- hosts: flik
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Install LVM2 packages
+    yum: 
+      name: lvm2
+      state: present
