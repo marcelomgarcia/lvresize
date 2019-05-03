@@ -63,3 +63,63 @@ Configuring _atta_ to be the Ansible controller to configure _flik_. The Ansible
 ## NTP
 
 Next we [configure NTP](https://www.tecmint.com/install-ntp-server-in-centos/) so the machines have the correct clock. _Atta_ will be the server, and _flik_ the client.
+
+## LVM
+
+Add another disk to the VM _flik_ via VirtualBox interface. Next, identify the new disk, like by looking at `/dev/disk/` directory.
+
+    [vagrant@flik ~]$ sudo ls -l /dev/disk/by-path
+    total 0
+    lrwxrwxrwx 1 root root  9 Apr 27 14:07 pci-0000:00:01.1-ata-1.0 -> ../../sda
+    lrwxrwxrwx 1 root root 10 Apr 27 14:07 pci-0000:00:01.1-ata-1.0-part1 -> ../../sda1
+    lrwxrwxrwx 1 root root  9 Apr 27 14:07 pci-0000:00:01.1-ata-1.1 -> ../../sdb
+    [vagrant@flik ~]$
+
+Create a new partition with `parted`, and format it. Although formating the partition can be useless since the `pvcreate` will remove the label.
+
+    [vagrant@flik ~]$ sudo parted /dev/sdb
+    (parted) print
+    Model: ATA VBOX HARDDISK (scsi)
+    Disk /dev/sdb: 100%
+    Sector size (logical/physical): 512B/512B
+    Partition Table: gpt
+    Disk Flags:
+
+    Number  Start  End  Size  File system  Name  Flags
+
+    (parted) mkpart primary ext3 0% 100%
+    (parted) print
+    Model: ATA VBOX HARDDISK (scsi)
+    Disk /dev/sdb: 100%
+    Sector size (logical/physical): 512B/512B
+    Partition Table: gpt
+    Disk Flags:
+
+    Number  Start  End   Size  File system  Name     Flags
+    1      0.01%  100%  100%               primary
+
+    (parted) quit
+    Information: You may need to update /etc/fstab.
+
+    [vagrant@flik ~]$ sudo mkfs.ext3 /dev/sdb1
+    mke2fs 1.42.9 (28-Dec-2013)
+
+Then we initialize the physical volume
+
+    [vagrant@flik ~]$ sudo pvcreate /dev/sdb1
+    WARNING: ext3 signature detected on /dev/sdb1 at offset 1080. Wipe it? [y/n]: y
+    Wiping ext3 signature on /dev/sdb1.
+    Physical volume "/dev/sdb1" successfully created.
+    [vagrant@flik ~]$
+
+Checking the new disk with `lvmdiskscan` command
+
+    [vagrant@flik ~]$ sudo lvmdiskscan
+    /dev/sda1 [     <40.00 GiB]
+    /dev/sdb1 [     <18.00 GiB] LVM physical volume
+    0 disks
+    1 partition
+    0 LVM physical volume whole disks
+    1 LVM physical volume
+    [vagrant@flik ~]$
+    [vagrant@flik ~]$
