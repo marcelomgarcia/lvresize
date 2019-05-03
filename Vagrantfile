@@ -14,6 +14,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "chmod 600 /home/vagrant/.ssh/id_rsa.pub"
   config.vm.provision "shell", inline: "chmod 600 /home/vagrant/.ssh/config"
 
+  # Check 'rear" script on how to change "ssh"
+  # https://github.com/rear/rear/blob/master/usr/share/rear/build/default/500_ssh_setup.sh
+  
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory and num. of CPUs on the VM:
     vb.memory = "2048"
