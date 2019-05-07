@@ -6,9 +6,14 @@ Test the resizing of a logical volume with the option to automatically resize th
 
 Configuration file to create 2 virtual machines. One will be controller from which Ansible will run, and the other where is the logical volume to be expanded.
 
-This intra-Vagrant setup can be [confusing](https://stackoverflow.com/questions/27005400/vagrant-multiple-machines-inter-ssh-key-authentication), but it seems the important thing is to use [Vagrant ssh keys](https://github.com/hashicorp/vagrant/tree/master/keys) to [configure ssh](https://www.vagrantup.com/docs/vagrantfile/ssh_settings.html) in the Vagrant file. The parameter `private_key_path` is an [array](https://ermaker.github.io/blog/2015/11/18/change-insecure-key-to-my-own-key-on-vagrant.html), that Vagrant uses to set the private keys for ssh.
+This intra-Vagrant setup can be [confusing](https://stackoverflow.com/questions/27005400/vagrant-multiple-machines-inter-ssh-key-authentication), but it seems the important thing is to use [Vagrant ssh keys](https://github.com/hashicorp/vagrant/tree/master/keys) to [configure ssh](https://www.vagrantup.com/docs/vagrantfile/ssh_settings.html) in the Vagrant file. To avoid being prompted to confirm the hosts id, [edit `config` file](https://superuser.com/questions/125324/how-can-i-avoid-sshs-host-verification-for-known-hosts) and set `KnownHosts` to `/dev/null`, like this:
 
-Putting all together, the _ssh_ configuration on the Vagrant file look like this:
+    Host atta
+        HostName 192.168.50.10
+        StrictHostKeyChecking no
+        UserKnownHostsFile=/dev/null
+
+On Vagrant file we copy the keys and set permissions:
 
     config.vm.provision "file", source: "keys/config",  destination: "~/.ssh/config"
     config.vm.provision "file", source: "keys/vagrant", destination: "~/.ssh/id_rsa"
@@ -17,15 +22,12 @@ Putting all together, the _ssh_ configuration on the Vagrant file look like this
     config.vm.provision "shell", inline: "chmod 600 /home/vagrant/.ssh/id_rsa.pub"
     config.vm.provision "shell", inline: "chmod 600 /home/vagrant/.ssh/config"
 
-The Vagrant keys are copied to the machines, and permissions are set.
-
 It can be useful to have the plugin _vagrant-scp_ installed
 
     PS C:\Users\mgarcia\Documents\Work\lvresize> vagrant plugin install vagrant-scp
     Installing the 'vagrant-scp' plugin. This can take a few minutes...
     Fetching: vagrant-scp-0.5.7.gem (100%)
     Installed the plugin 'vagrant-scp (0.5.7)'!
-    PS C:\Users\mgarcia\Documents\Work\lvresize>
     PS C:\Users\mgarcia\Documents\Work\lvresize>
     PS C:\Users\mgarcia\Documents\Work\lvresize> vagrant plugin list
     vagrant-scp (0.5.7, global)
